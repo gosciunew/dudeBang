@@ -132,6 +132,7 @@ printInfo "INSTALLING REST OF SHIT";
 pacman -S \
 vim \
 ack \
+openssh \
 thunar \
 thunar-volman \
 thunar-archive-plugin \
@@ -170,6 +171,7 @@ gnome-system-monitor \
 gnome-themes-standard \
 arandr \
 evince \
+transmission-gtk \
 --noconfirm;
 
 

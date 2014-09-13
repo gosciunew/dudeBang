@@ -45,6 +45,14 @@
 				</startupnotify>
 			</action>
 		</item>
+		<item label="Transmission">
+			<action name="Execute">
+				<command>transmission-gtk</command>
+				<startupnotify>
+					<enabled>yes</enabled>
+				</startupnotify>
+			</action>
+		</item>
 	</menu>
 	<menu id="apps-office-menu" label="Office">
 		<item label="OpenOffice Base">
