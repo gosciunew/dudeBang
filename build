@@ -26,8 +26,8 @@ pacman -S git --noconfirm;
 
 # install libgl few options :
 printInfo "INSTALLING LIBGL";
-pacman -S mesa-libgl --noconfirm;
-#pacman -S nvidia-libgl --noconfirm;
+#pacman -S mesa-libgl --noconfirm;
+pacman -S nvidia-libgl --noconfirm;
 
 # install xorg and configure 
 printInfo "INSTALLING XORG";
