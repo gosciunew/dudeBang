@@ -1,0 +1,194 @@
+#!/bin/bash
+
+USER="dude";
+
+printInfo()
+{
+	echo " ";
+	echo "---------------------------";
+	echo " ";
+	echo "# $1 #";
+	echo " ";
+	echo "---------------------------";
+	echo " ";
+}
+
+# script configuration 
+printInfo "SCRIPT CONFIGURATION";
+echo "USER: $USER";
+
+# preconfiguration :
+printInfo "PRECONFIGURATION";
+mkdir -v /etc/skel/.config;
+cp -v configFiles/cb-lock /usr/bin;
+chmod -v +x /usr/bin/cb-lock;
+pacman -S git --noconfirm;
+
+# install libgl few options :
+printInfo "INSTALLING LIBGL";
+pacman -S mesa-libgl --noconfirm;
+#pacman -S nvidia-libgl --noconfirm;
+
+# install xorg and configure 
+printInfo "INSTALLING XORG";
+pacman -S xorg-xinit xorg-server --noconfirm;
+
+printInfo "CONFIGURING XORG";
+if ! grep -q 'exec openbox-session' /etc/skel/.xinitrc; then
+	echo "exec openbox-session" >> /etc/skel/.xinitrc;
+fi
+cat /etc/skel/.xinitrc
+
+#install tint2 and confiugure
+printInfo "INSTALLING TINT2";
+pacman -S tint2 --noconfirm;
+
+printInfo "CONFIGURE TINT2";
+mkdir -v /etc/skel/.config/tint2;
+cp -v configFiles/tint2rc /etc/skel/.config/tint2/tint2rc;
+
+# install nitrogen and configure
+printInfo "INSTALLING NITROGEN";
+pacman -S nitrogen --noconfirm;
+
+printInfo "CONFIGURING NITROGEN";
+cp -v -R configFiles/nitrogen /etc/skel/.config/;
+cp -v configFiles/nitrogen/fabric-tile-wallpaper.png /etc/skel/.config/nitrogen/;
+
+# install openbox and configure
+printInfo "INSTALLING OPENBOX";
+pacman -S openbox obmenu obconf --noconfirm;
+
+printInfo "CONFIGURING OPENBOX";
+
+mkdir -v /etc/skel/.config/openbox;
+cp -v /etc/xdg/openbox/* /etc/skel/.config/openbox;
+cp -v configFiles/openbox_rc.xml /etc/skel/.config/openbox/rc.xml;
+cp -v configFiles/openbox_autostart /etc/skel/.config/openbox/autostart;
+cp -v configFiles/openbox_menu.xml /etc/skel/.config/openbox/menu.xml;
+
+# install dmenu and configure
+printInfo "INSTALLING DMENU";
+pacman -S dmenu --noconfirm;
+
+printInfo "CONFIGURING DMENU";
+mkdir -v /etc/skel/.config/dmenu;
+cp -v configFiles/dmenu-bind.sh /etc/skel/.config/dmenu/dmenu-bind.sh;
+chmod -v +x /etc/skel/.config/dmenu/dmenu-bind.sh;
+
+# install pnmixer and configure
+printInfo "INSTALLING PNMIXER";
+pacman -S gtk3 glib2 alsa-lib libnotify gettext pkg-config autoconf automake --noconfirm;
+git clone https://github.com/nicklan/pnmixer.git;
+cd pnmixer;
+./autogen.sh;
+make;
+make install;
+cd ..;
+
+# install compton and configure
+printInfo "INSTALLING COMPTON";
+pacman -S xorg-xprop xorg-xwininfo pcre libconfig asciidoc --noconfirm;
+git clone https://github.com/chjj/compton.git;
+cd compton;
+make 
+make docs;
+make install;
+cd ..;
+
+printInfo "CONFIGURING COMPTON";
+cp -v configFiles/compton.conf /etc/skel/.config/compton.conf;
+cp -v configFiles/cb-compositor /usr/bin;
+chmod -v +x /usr/bin/cb-compositor;
+
+# install oblogout and configure
+printInfo "INSTALLING OBLOGOUT";
+pacman -S oblogout --noconfirm;
+
+printInfo "CONFIGURING OBLOGOUT";
+cp -v configFiles/oblogout.conf /etc/oblogout.conf;
+
+# install yaourt and configure
+printInfo "INSTALLING YAOURT";
+mkdir yaourt;
+cd yaourt;
+curl -O https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz;
+tar -xf package-query.tar.gz;
+cd package-query;
+makepkg -sci --asroot --noconfirm;
+cd ..;
+curl -O https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz;
+tar -xf yaourt.tar.gz;
+cd yaourt;
+makepkg -sci --asroot --noconfirm;
+cd ../..;
+
+
+printInfo "CONFIGURING YAOURT";
+cp -v configFiles/oblogout.conf /etc/oblogout.conf;
+
+#install rest of software which not needed configuration
+printInfo "INSTALLING REST OF SHIT";
+pacman -S \
+vim \
+ack \
+thunar \
+thunar-volman \
+thunar-archive-plugin \
+tumbler \
+xfce4-power-manager \
+xfce4-screenshooter \
+alsa-utils \
+xfce4-mixer \
+gsimplecal \
+geany \
+geany-plugins \
+firefox \
+gnome-calculator \
+xscreensaver \
+networkmanager \
+network-manager-applet \
+xfce4-notifyd \
+gnome-keyring \
+xarchiver \
+unzip \
+gpicview \
+lxappearance \
+qt4 \
+jre8-openjdk \
+jdk8-openjdk \
+sudo \
+gimp \
+deadbeef \
+inkscape \
+flashplugin \
+terminator \
+libreoffice-fresh \
+vlc \
+gnome-disk-utility \
+gnome-system-monitor \
+gnome-themes-standard \
+arandr \
+evince \
+--noconfirm;
+
+
+printInfo "POST PROCESSING";
+# symbolic links
+ln -v -s /usr/bin/gnome-calculator /usr/local/bin/calc;
+
+# enable deamons
+systemctl enable NetworkManager.service
+
+#theme 
+cp -v -R configFiles/Icons/Faenza /usr/share/icons;
+cp -v -R configFiles/Icons/Faenza-Ambiance /usr/share/icons;
+cp -v -R configFiles/Icons/Faenza-Dark /usr/share/icons;
+cp -v -R configFiles/Icons/Faenza-Darker /usr/share/icons;
+cp -v -R configFiles/Icons/Faenza-Darkest /usr/share/icons;
+cp -v -R configFiles/Icons/Faenza-Radiance /usr/share/icons;
+yaourt -S zukitwo-themes --noconfirm;
+cp -v -R configFiles/waldorf /usr/share/themes;
+cp -v configFiles/.gtkrc-2.0 /etc/skel;
+cp -v -R configFiles/gtk-2.0 /etc/skel/.config/;
+cp -v -R configFiles/gtk-3.0 /etc/skel/.config/;

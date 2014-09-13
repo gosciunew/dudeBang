@@ -1,0 +1,33 @@
+#TODO 
+- wallpaper PARTIALLY 							DONE
+- dmenu 										DONE
+- tint2  										DONE 
+- shutdown menu 								DONE (using oblogout)
+- disk utility 									DONE 
+- volume in thunar  							DONE
+- archives in thunar 							DONE 
+- create user + sudo 
+- download and configure yaourt					DONE
+- screen resolution and monitor handle tool 	DONE
+- find waldorf substitue for gtk3 				DONE (not so bad)
+- zip files										DONE
+- videos										DONE
+- flashplugin 									DONE
+- thumbnails									DONE
+- java in firefox? 								
+
+#TODO ADDITIONAL ITEMS WHICH CAN BE USEFUL
+- .bashrc
+- terminator config
+- geany config
+- firefox config with plugins
+
+# INSTALLATION 
+./build (run as a root, temporary solution)
+create user, every user should be same way configured
+
+
+
+
+
+
