@@ -57,7 +57,7 @@ cp -v configFiles/nitrogen/fabric-tile-wallpaper.png /etc/skel/.config/nitrogen/
 
 # install openbox and configure
 printInfo "INSTALLING OPENBOX";
-pacman -S openbox obmenu obconf --noconfirm;
+pacman -S openbox obmenu obconf xf86-video-fbdev --noconfirm;
 
 printInfo "CONFIGURING OPENBOX";
 

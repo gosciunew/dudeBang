@@ -17,15 +17,15 @@
 #xfce-mcs-manager &
 
 ## Gnome PolicyKit and Keyring 
-eval $(gnome-keyring-deamon -s --components=pkcs11,secrets,ssh,gpg) &
+eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
 
 ## Set root window color
-xsetroot -solid "#232323" &
+## xsetroot -solid "#232323" &
 
 (nitrogen --restore && \
 cb-compositor --start && \
 sleep 2s && \
-tint2 && \
+tint2 \
 ) &
 
 sleep 1s & 
